@@ -1,3 +1,3 @@
 # Data-transfer
 
-Даний репозиторій потрібен для поширення програми, яка передає дані між двома ПК.
+This repository is needed to distribute a program that transfers data between two PC.
