@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QDir>
+#include <QTcpSocket>
+#include <QFile>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ClientDataTransfer; }
@@ -18,11 +20,14 @@ public:
     ~ClientDataTransfer();
 
 private slots:
+    void connectToServer();
+    void connected();
     void searchFile();
     void sendFile();
     void getFile();
 
 private:
     Ui::ClientDataTransfer *ui;
+    QTcpSocket *m_socket;
 };
 #endif // CLIENTDATATRANSFER_H

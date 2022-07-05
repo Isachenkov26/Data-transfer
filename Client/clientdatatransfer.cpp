@@ -10,6 +10,13 @@ ClientDataTransfer::ClientDataTransfer(QWidget *parent)
     ui->tabWidget->setTabText(0, "Enter");
     ui->tabWidget->setTabText(1, "Action");
     ui->lTextFile->setReadOnly(true);
+
+    m_socket = new QTcpSocket();
+
+    connect(m_socket, &QTcpSocket::connected, this, &ClientDataTransfer::connected);
+    connect(m_socket, &QTcpSocket::readyRead, this, &ClientDataTransfer::connected);
+
+    connect(ui->bPush, &QPushButton::clicked, this, &ClientDataTransfer::connectToServer);
     connect(ui->bFind, &QPushButton::clicked, this, &ClientDataTransfer::searchFile);
     connect(ui->bSend, &QPushButton::clicked, this, &ClientDataTransfer::sendFile);
     connect(ui->bGet, &QPushButton::clicked, this, &ClientDataTransfer::getFile);
@@ -20,20 +27,48 @@ ClientDataTransfer::~ClientDataTransfer()
     delete ui;
 }
 
+QByteArray text;
+//QString type;
+//char types[50];
+
+void ClientDataTransfer::connectToServer()
+{
+    m_socket->connectToHost(ui->lIp->text(), ui->sPort->value());
+}
+
+void ClientDataTransfer::connected()
+{
+    ui->tabWidget->setCurrentIndex(1);
+}
+
 void ClientDataTransfer::searchFile()
 {
     QString file = QFileDialog::getOpenFileName(this, tr("Search File"), QDir::homePath(), tr("file (*.txt)"));
     ui->lTextFile->setText(file);
+    QFile myFile(file);
+    myFile.open(QIODevice::ReadOnly);
+    text = myFile.readAll();
+    if (myFile.isOpen()) {
+            qDebug() << "File is open!";
+        } else {
+            qDebug() << "Failed to open the file!";
+        }
+    myFile.close();
+//    QFileInfo path(file);
+//    type = "File (*." + path.suffix() + ")";
+//    QByteArray bytes = type.toLocal8Bit();
+//    strcpy(types, bytes.data());
 }
 
 void ClientDataTransfer::sendFile()
 {
-    if(ui->lTextFile->text() != ""){
-        ui->tabWidget->setCurrentIndex(1);
-    }
+    m_socket->write(text);
 }
 
 void ClientDataTransfer::getFile()
 {
-    ui->tabWidget->setCurrentIndex(1);
+    QString file = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::homePath(), tr("file (*.txt)"));
+    QFile myFile(file);
+    myFile.open(QIODevice::WriteOnly);
+    myFile.write(m_socket->readAll());
 }
