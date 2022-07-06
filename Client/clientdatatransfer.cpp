@@ -43,7 +43,7 @@ void ClientDataTransfer::connected()
 
 void ClientDataTransfer::searchFile()
 {
-    QString file = QFileDialog::getOpenFileName(this, tr("Search File"), QDir::homePath(), tr("file (*.txt)"));
+    QString file = QFileDialog::getOpenFileName(this, tr("Search File"), QDir::homePath(), tr("File (*.txt *.dat *.bin *.jpg *.mp3 *.mp4 *.docx *.pdf *.png *.avi *.doc)"));
     ui->lTextFile->setText(file);
     QFile myFile(file);
     myFile.open(QIODevice::ReadOnly);
@@ -58,16 +58,19 @@ void ClientDataTransfer::searchFile()
 //    type = "File (*." + path.suffix() + ")";
 //    QByteArray bytes = type.toLocal8Bit();
 //    strcpy(types, bytes.data());
+//    QFileInfo path(file);
+//     type = path.suffix();
 }
 
 void ClientDataTransfer::sendFile()
 {
     m_socket->write(text);
+    ui->lTextFile->setText("");
 }
 
 void ClientDataTransfer::getFile()
 {
-    QString file = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::homePath(), tr("file (*.txt)"));
+    QString file = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::homePath(), tr("File (*.txt *.dat *.bin *.jpg *.mp3 *.mp4 *.docx *.pdf *.png *.avi *.doc)"));
     QFile myFile(file);
     myFile.open(QIODevice::WriteOnly);
     myFile.write(m_socket->readAll());
