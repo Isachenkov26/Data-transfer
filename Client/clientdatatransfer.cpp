@@ -15,11 +15,13 @@ ClientDataTransfer::ClientDataTransfer(QWidget *parent)
 
     connect(m_socket, &QTcpSocket::connected, this, &ClientDataTransfer::connected);
     connect(m_socket, &QTcpSocket::readyRead, this, &ClientDataTransfer::connected);
+    connect(m_socket, &QTcpSocket::readyRead, this, &ClientDataTransfer::fileReady);
 
     connect(ui->bPush, &QPushButton::clicked, this, &ClientDataTransfer::connectToServer);
     connect(ui->bFind, &QPushButton::clicked, this, &ClientDataTransfer::searchFile);
     connect(ui->bSend, &QPushButton::clicked, this, &ClientDataTransfer::sendFile);
     connect(ui->bGet, &QPushButton::clicked, this, &ClientDataTransfer::getFile);
+    connect(ui->bRestart, &QPushButton::clicked, this, &ClientDataTransfer::restart);
 }
 
 ClientDataTransfer::~ClientDataTransfer()
@@ -29,7 +31,6 @@ ClientDataTransfer::~ClientDataTransfer()
 
 QByteArray text;
 //QString type;
-//char types[50];
 
 void ClientDataTransfer::connectToServer()
 {
@@ -66,6 +67,7 @@ void ClientDataTransfer::sendFile()
 {
     m_socket->write(text);
     ui->lTextFile->setText("");
+    qDebug() << "File sended!";
 }
 
 void ClientDataTransfer::getFile()
@@ -74,4 +76,19 @@ void ClientDataTransfer::getFile()
     QFile myFile(file);
     myFile.open(QIODevice::WriteOnly);
     myFile.write(m_socket->readAll());
+    qDebug() << "File received!";
+    ui->lReady->setText("The file is not ready");
+}
+
+void ClientDataTransfer::fileReady()
+{
+    ui->lReady->setText("The file is ready");
+}
+
+void ClientDataTransfer::restart()
+{
+    QByteArray example;
+    example.push_back(m_socket->readAll());
+    qDebug() << "Program restarted. Socket clear!";
+    ui->lReady->setText("The file is not ready");
 }

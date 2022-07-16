@@ -17,6 +17,9 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
       <property name="currentIndex">
        <number>1</number>
       </property>
@@ -119,19 +122,6 @@
         <string>Tab 1</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>279</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="0" column="1">
          <spacer name="verticalSpacer">
           <property name="orientation">
@@ -152,7 +142,20 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>279</width>
+            <width>277</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="0">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>278</width>
             <height>20</height>
            </size>
           </property>
@@ -160,13 +163,6 @@
         </item>
         <item row="1" column="1">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="1" column="0">
-           <widget class="QPushButton" name="bGet">
-            <property name="text">
-             <string>Get file</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="2">
            <widget class="QPushButton" name="bFind">
             <property name="minimumSize">
@@ -186,13 +182,34 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="lReady">
+            <property name="text">
+             <string>The file is not ready</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="2">
+           <widget class="QPushButton" name="bGet">
+            <property name="text">
+             <string>Get file</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0" colspan="2">
            <widget class="QLineEdit" name="lTextFile"/>
           </item>
-          <item row="1" column="1" colspan="2">
+          <item row="1" column="0" colspan="3">
            <widget class="QPushButton" name="bSend">
             <property name="text">
              <string>Send file</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="3">
+           <widget class="QPushButton" name="bRestart">
+            <property name="text">
+             <string>Restart</string>
             </property>
            </widget>
           </item>

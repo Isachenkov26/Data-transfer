@@ -25,6 +25,8 @@ private slots:
     void searchFile();
     void sendFile();
     void getFile();
+    void fileReady();
+    void restart();
 
 private:
     Ui::ClientDataTransfer *ui;
