@@ -21,7 +21,7 @@ ClientDataTransfer::ClientDataTransfer(QWidget *parent)
     connect(ui->bFind, &QPushButton::clicked, this, &ClientDataTransfer::searchFile);
     connect(ui->bSend, &QPushButton::clicked, this, &ClientDataTransfer::sendFile);
     connect(ui->bGet, &QPushButton::clicked, this, &ClientDataTransfer::getFile);
-    connect(ui->bRestart, &QPushButton::clicked, this, &ClientDataTransfer::restart);
+    connect(ui->bDelete, &QPushButton::clicked, this, &ClientDataTransfer::deleteFile);
 }
 
 ClientDataTransfer::~ClientDataTransfer()
@@ -85,10 +85,10 @@ void ClientDataTransfer::fileReady()
     ui->lReady->setText("The file is ready");
 }
 
-void ClientDataTransfer::restart()
+void ClientDataTransfer::deleteFile()
 {
     QByteArray example;
     example.push_back(m_socket->readAll());
-    qDebug() << "Program restarted. Socket clear!";
+    qDebug() << "File deleted. Socket clear!";
     ui->lReady->setText("The file is not ready");
 }
